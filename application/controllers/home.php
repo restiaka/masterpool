@@ -31,10 +31,9 @@ class Home extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('contestant1', 'Contestant', 'callback__ajax');
-		
+		$this->form_validation->set_message('_ajax', 'Please wait for a minute to vote again');
 		if ($this->form_validation->run())
 		{
-			echo 'Sukses';
 			$id = $this->input->post('contestant1');
 			$data = array(
 				'uid' => $user['id'] ,
@@ -49,7 +48,7 @@ class Home extends CI_Controller {
 		for($i=1;$i<=10;$i++){
 			$hidden[$i] = array('contestant'.$i => $i);
 		}
-		$this->load->view('home',array('is_authorized' => $isAuthorized,
+		$this->load->view('vote',array('is_authorized' => $isAuthorized,
 										'redirectURL' => $redirect_url,
 										'hidden' => $hidden
 										));
@@ -66,7 +65,7 @@ class Home extends CI_Controller {
 		}
 		else
 		{
-			$this->form_validation->set_message('ajax', 'Please wait for a minute to vote again');
+			$this->form_validation->set_message('_ajax', 'Please wait for a minute to vote again');
 			return FALSE;
 		}
 	}
